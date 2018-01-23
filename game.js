@@ -10,6 +10,7 @@ function Game (mainElement) {
   self.mainElement = mainElement;
   self.width = window.innerWidth;
   self.height = window.innerHeight;
+  
 
   //create dom elements of game
   self.gameCanvas = document.createElement('canvas');

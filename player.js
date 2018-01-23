@@ -8,25 +8,45 @@ function Player(ctx, width, height) {
   self.ctx = ctx; 
   self.gameWidth = width;
   self.gameHeight = height;
-  
-  //create Player
-  var player = {
-    x: 25,
-    y: 25,
-    moveUp:    function(){self.y+=25},
-    moveRight: function(){self.x+=25},
-    moveDown:  function(){self.y+-25},
-    moveLeft:  function(){self.x+-25}
-  }
-  
-  //draw Player 
-    function drawPlayer() {
-    self.ctx.fillStyle = "yellow";  
-    self.ctx.fillRect(player.x,player.y,50,100);
-    
-    
-  }
+  self.x = 25;
+  self.y = 25;
+  self.direction = null;
 
   drawPlayer(); 
+  
+  //define Player movement
+  document.onkeydown = function(event){
+  var key = event.key.toLowerCase();
+    switch(key){
+    case 'w': self.y -=25; //move up
+    break;
+    case 'd': self.x +=25; //move right
+    break;
+    case 's': self.y +=25; //move down
+    break;
+    case 'a': self.x -=25; //move left
+    break;
+    }
+ 
+  //dig 
 
+  updateCanvas(); 
+
+  }
+
+  //draw Player 
+  function drawPlayer(){
+    self.ctx.fillStyle = "green";  
+    self.ctx.fillRect(self.x,self.y,50,100);
+    }
+  
+  //functions
+  function updateCanvas(){
+  self.ctx.clearRect(0,0,self.gameWidth,self.gameHeight);
+  drawPlayer(); 
+  }
 }
+
+ 
+
+
