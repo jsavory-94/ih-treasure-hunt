@@ -16,44 +16,42 @@ function main () {
 
   //create dom elements of splash screen
   function buildSplash() {
-      splashElement = document.createElement('div');
-      splashElement.setAttribute('id','splash');
-      mainElement.appendChild(splashElement);
+    splashElement = document.createElement('div');
+    splashElement.setAttribute('id','splash');
+    mainElement.appendChild(splashElement);
 
-  var title = document.createElement('h1');
-      title.innerText = "Ironhack Treasure Hunt";
-      splashElement.appendChild(title);
+    var title = document.createElement('h1');
+    title.innerText = "Ironhack Treasure Hunt";
+    splashElement.appendChild(title);
 
-      startGameButton = document.createElement('button');
-      startGameButton.innerText = "Go Treasure Hunting";
-      splashElement.appendChild(startGameButton);
+    startGameButton = document.createElement('button');
+    startGameButton.innerText = "Go Treasure Hunting";
+    splashElement.appendChild(startGameButton);
 
-  startGameButton.addEventListener("click", destroySplash);
+    startGameButton.addEventListener("click", startGame);
   }
 
-  //destroy splash
-  function destroySplash () {
+  //start game
+  function startGame () {
       splashElement.remove();
       buildGame();
     }
 
-
-
-  
   // --- GAME
-
   function buildGame() {
     stage = 'game';
-    game = new Game (mainElement);
+    game = new Game(mainElement);
 
-    window.setTimeout( function() {
+    console.log(game.score);
+
+    window.setTimeout(function() {
       destroyGame();
       buildGameOver();
     }, 5000);
-  };
+  }
 
   function destroyGame(){
-    game.remove
+    game.destroy();
   }
 
 
@@ -71,13 +69,26 @@ function main () {
     mainElement.appendChild(gameOverElement);
 
     var yourScore = document.createElement('h2');
-    yourScore.innerText = 'you scored ' + game.score + 'points';
+    yourScore.innerText = 'you scored ' + game.score + ' points';
     gameOverElement.appendChild(yourScore);
 
     restartGameButton = document.createElement('button');
     restartGameButton.innerText = "Play Again";
-    splashElement.appendChild(restartGameButton);
+    gameOverElement.appendChild(restartGameButton);
+
+    restartGameButton.addEventListener("click", restart);
+
+    //restart game
+    function restart(){
+      gameOverElement.remove();
+      buildSplash();
+    }
   }
+
+   
+
+    
+
   buildSplash();
 };
 
