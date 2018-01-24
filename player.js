@@ -28,10 +28,24 @@ function Player(ctx, width, height) {
     break;
     }
 
-  //document.addEventListener('keydown', self.HandleKeyDown);
+  if (self.x > self.gameWidth) {
+    self.x = self.gameWidth;
+  }
+
+  if (self.x < 0) {
+    self.x = 0;
+  }
+
+  if (self.y > self.gameHeight) {
+    self.y = self.gameHeight;
+  }
+
+  if (self.y < 0) {
+    self.y = 0;
+  }
 
   updateCanvas(); 
-  console.log(self.x + ", " + self.y);
+  console.log("x: " + self.x + ", " + "y: " + self.y);
   }
 
 
