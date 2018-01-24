@@ -42,12 +42,10 @@ function main () {
     stage = 'game';
     game = new Game(mainElement);
 
-    console.log(game.score);
-
-    window.setTimeout(function() {
-      destroyGame();
-      buildGameOver();
-    }, 10000);
+    // window.setTimeout(function() {
+    //   destroyGame();
+    //   buildGameOver();
+    // }, 10000);
   }
 
   function destroyGame(){
@@ -85,14 +83,8 @@ function main () {
     }
   }
 
-   
-
-    
-
   buildSplash();
 };
-
-  
 
 
 window.onload = main;

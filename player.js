@@ -1,6 +1,6 @@
 'use strict'
 
-function Player(ctx, width, height) {
+function Player(ctx, width, height, ) {
   
   var self = this;
 
@@ -8,60 +8,59 @@ function Player(ctx, width, height) {
   self.ctx = ctx; 
   self.gameWidth = width;
   self.gameHeight = height;
-  self.x = 25;
-  self.y = 25;
+  self.x = width / 2;
+  self.y = height / 2;
   self.direction = null;
-
-  drawPlayer(); 
   
   //define Player movement
-  document.onkeydown = function(event){
-  var movePress = event.key.toLowerCase();
-    switch(movePress){
-    case 'w': self.y -=25; //move up
-    break;
-    case 'd': self.x +=25; //move right
-    break;
-    case 's': self.y +=25; //move down
-    break;
-    case 'a': self.x -=25; //move left
-    break;
+  self.handleKeyDown = function(event) {
+    var movePress = event.key.toLowerCase();
+    switch(movePress) {
+      case 'w': 
+        self.y -=25; //move up
+        break;
+      case 'd':
+        self.x +=25; //move right
+        break;
+      case 's':
+        self.y +=25; //move down
+        break;
+      case 'a': 
+        self.x -=25; //move left
+        break;
     }
 
-  if (self.x > self.gameWidth) {
-    self.x = self.gameWidth;
+    if (self.x > self.gameWidth) {
+      self.x = self.gameWidth;
+    }
+
+    if (self.x < 0) {
+      self.x = 0;
+    }
+
+    if (self.y > self.gameHeight) {
+      self.y = self.gameHeight;
+    }
+
+    if (self.y < 0) {
+      self.y = 0;
+    }
+
+    console.log("player position --- x: " + self.x + ", " + "y: " + self.y);
   }
 
-  if (self.x < 0) {
-    self.x = 0;
-  }
-
-  if (self.y > self.gameHeight) {
-    self.y = self.gameHeight;
-  }
-
-  if (self.y < 0) {
-    self.y = 0;
-  }
-
-  updateCanvas(); 
-  console.log("x: " + self.x + ", " + "y: " + self.y);
-  }
+  addEventListener('keydown', self.handleKeyDown);
 
 
   //draw Player 
-  function drawPlayer(){
+  self.draw = function () {
     self.ctx.fillStyle = "green";  
-    self.ctx.fillRect(self.x,self.y,50,100);
-    }
-  
-  //functions
-  function updateCanvas(){
-  self.ctx.clearRect(0,0,self.gameWidth,self.gameHeight);
-  drawPlayer(); 
+    self.ctx.fillRect(self.x - 25, self.y - 100, 50, 100);
   }
+
+
+  self.destroy = function () {
+    removeEventListener('keydown', self.handleKeyDown);
+  }
+  
 }
-
- 
-
-
