@@ -4,7 +4,7 @@ function Player(ctx, width, height) {
   
   var self = this;
 
-  //put Player in game
+  //declare Player variables
   self.ctx = ctx; 
   self.gameWidth = width;
   self.gameHeight = height;
@@ -16,8 +16,8 @@ function Player(ctx, width, height) {
   
   //define Player movement
   document.onkeydown = function(event){
-  var key = event.key.toLowerCase();
-    switch(key){
+  var movePress = event.key.toLowerCase();
+    switch(movePress){
     case 'w': self.y -=25; //move up
     break;
     case 'd': self.x +=25; //move right
@@ -27,12 +27,13 @@ function Player(ctx, width, height) {
     case 'a': self.x -=25; //move left
     break;
     }
- 
-  //dig 
+
+  //document.addEventListener('keydown', self.HandleKeyDown);
 
   updateCanvas(); 
-
+  console.log(self.x + ", " + self.y);
   }
+
 
   //draw Player 
   function drawPlayer(){
