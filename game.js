@@ -11,6 +11,7 @@ function Game (mainElement) {
   self.mainElement = mainElement;
   self.width = window.innerWidth;
   self.height = window.innerHeight;
+
   
   //---create dom elements of game---
 
@@ -21,14 +22,18 @@ function Game (mainElement) {
   self.ctx = self.gameCanvas.getContext('2d');
   mainElement.appendChild(self.gameCanvas);
 
+  self.pointsDug = [];
+  // @todo declare treasuresDug
+
   //--dom elements (items)--
   self.player = new Player(self.ctx, self.width, self.height);
   self.treasure = new Treasure(self.ctx, self.width, self.height);
-  //self.dig = new Dig();
   self.hintMessages = ["cold", "chilly", "warm", "hot"]
 
-  //---logic---
 
+  // ---create logic of game ---//
+
+  //--logic (declare functions)--//
   function getDistance(treasure) {
     var pythagorasA = self.player.x - self.treasure.x
     var pythagorasB = self.player.y - self.treasure.y
@@ -51,23 +56,32 @@ function Game (mainElement) {
   }
 
   self.giveHint = function() {
-    self.score--;
+    self.score--; 
     var distance = getDistance(self.treasure);
     var message = getMessage(distance);
-    console.log(message);
+    self.hintMessage = message;
   }
 
   self.dig = function() {
     var distance = getDistance(self.treasure);
-    if (distance < 100) {
+    if (distance < 75){
       self.score += 10;
+      console.log("found treasure!");
       self.treasure = new Treasure(self.ctx, self.width, self.height);
+
+      // @todo push treasure.x & y to treasuresDdug
+
     }
     else {
       self.score -= 5;
+      var pointDug = {};
+      pointDug.x = self.player.x;
+      pointDug.y = self.player.y;
+      self.pointsDug.push(pointDug);
     }
   }
 
+  //--logic (executing functions)--
   self.handleKeyDown = function(event) {
     var key = event.key.toLowerCase();
     if (key === 'f'){
@@ -75,6 +89,9 @@ function Game (mainElement) {
     }
     if (key === 'v'){
       self.dig();
+    }
+    if (key === 'w' || key === 'a' || key === 's' || key === 'd') {
+      self.hintMessage = null;
     }
   }
 
@@ -85,22 +102,38 @@ function Game (mainElement) {
     self.ctx.clearRect(0, 0, self.width, self.height);
 
     self.player.draw();
-    self.treasure.draw();
 
     self.ctx.font = '24px serif';
-    self.ctx.textAlign = "left";
-    
-    self.ctx.fillText('Score: ' + self.score, 20, 20);
+    // self.ctx.textAlign = "left";
+    // self.ctx.fillText('Score: ' + self.score, 20, 20);
+
+    if (self.hintMessage) {
+      self.ctx.textAlign = "center"; 
+      self.ctx.fillStyle = 'purple';
+      self.ctx.fillText(self.hintMessage, self.width / 2, 20);
+    }
     
     self.ctx.textAlign = "right"; 
     self.ctx.fillStyle = 'blue';
-    self.ctx.fillText('Score: ' +self.score, width - 20, 20);
+    self.ctx.fillText('Score: ' + self.score, self.width - 20, 20);
+
+    //Time countdown
+    //function Timer() {
+    //self.getTimeNow = Date.now();
+    //self.delta = self.CurrentTime
+    //}
+
+
+    // @todo loop through treasures dug
+
+    self.ctx.fillStyle = 'black';
+    for (var i = 0; i < self.pointsDug.length; i++) {
+      self.ctx.fillRect(self.pointsDug[i].x - 5, self.pointsDug[i].y - 5, 10, 10);
+    }
 
     // todo if (!self.finished)
     window.requestAnimationFrame(updateCanvas);
   }
-
-  window.requestAnimationFrame(updateCanvas);
 
   // ---functions
   self.destroy = function () {
@@ -109,4 +142,6 @@ function Game (mainElement) {
     self.player.destroy();
   }
 
+  window.requestAnimationFrame(updateCanvas);
+  
 } 

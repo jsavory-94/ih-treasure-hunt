@@ -28,6 +28,19 @@ function main () {
     startGameButton.innerText = "Go Treasure Hunting";
     splashElement.appendChild(startGameButton);
 
+    //instructions
+    var instructions = document.createElement('ul');
+
+    var digInstruction = document.createElement('li');
+    digInstruction.innerText = "V: Dig";
+    digInstruction.appendChild(instructions);
+
+    var hintInstruction = document.createElement('li');
+    hintInstruction.innerText = "F: Ask for a hint";
+    hintInstruction.appendChild(instructions);
+
+    
+
     startGameButton.addEventListener("click", startGame);
   }
 
@@ -51,6 +64,7 @@ function main () {
   function destroyGame(){
     game.destroy();
   }
+
 
 
   // --- GAME OVER

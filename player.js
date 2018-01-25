@@ -55,7 +55,7 @@ function Player(ctx, width, height, ) {
   //draw Player 
   self.draw = function () {
     self.ctx.fillStyle = "green";  
-    self.ctx.fillRect(self.x - 25, self.y - 100, 50, 100);
+    self.ctx.fillRect(self.x - 10, self.y - 20, 20, 40);
   }
 
 
