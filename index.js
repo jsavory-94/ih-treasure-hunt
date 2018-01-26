@@ -7,7 +7,7 @@ function main () {
   var mainElement = document.getElementById("main");
   var game;
   var stage;
-  
+  var gameOver
   // --- SPLASH
 
   //declare variables of splash screen
@@ -64,7 +64,6 @@ function main () {
   function destroyGame(){
     game.destroy();
   }
-
 
 
   // --- GAME OVER

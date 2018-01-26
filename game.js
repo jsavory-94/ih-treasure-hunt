@@ -92,6 +92,7 @@ function Game (mainElement) {
     self.timer -= self.delta/1000;
     self.updateTime(self.delta/1000);
     self.startTime = self.currentTime;
+    //check is time is 0
   }
   self.updateTime = function (){
     if (self.timer >=120){
@@ -163,12 +164,12 @@ function Game (mainElement) {
     self.ctx.fillStyle = 'black';
     for (var i = 0; i < self.pointsDug.length; i++) {
       self.ctx.fillRect(self.pointsDug[i].x - 5, self.pointsDug[i].y - 5, 10, 10);
-
-    if(self.timer === 0){
-      self.destroy();
-      }
     }
 
+    if (self.timer < 0){
+      self.destroy();
+      
+        }
     // todo if (!self.finished)
     window.requestAnimationFrame(updateCanvas);
   }
@@ -179,7 +180,7 @@ function Game (mainElement) {
     removeEventListener('keydown', self.handleKeyDown)
   }
 
- 
-  window.requestAnimationFrame(updateCanvas);
+
+ window.requestAnimationFrame(updateCanvas);
   
 } 
