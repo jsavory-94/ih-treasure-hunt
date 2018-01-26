@@ -23,7 +23,7 @@ function Game (mainElement) {
   mainElement.appendChild(self.gameCanvas);
 
   self.pointsDug = [];
-  // @todo declare treasuresDug
+  self.treasuresDug = [];
 
   //--dom elements (items)--
   self.player = new Player(self.ctx, self.width, self.height);
@@ -40,7 +40,7 @@ function Game (mainElement) {
     return Math.sqrt(Math.pow(pythagorasA,2) + Math.pow(pythagorasB,2));
   }
 
-  function getMessage(distance) {
+  function getHintMessage(distance) {
     if (distance < 150){
       return self.hintMessages[3];
     }
@@ -58,20 +58,24 @@ function Game (mainElement) {
   self.giveHint = function() {
     self.score--; 
     var distance = getDistance(self.treasure);
-    var message = getMessage(distance);
+    var message = getHintMessage(distance);
     self.hintMessage = message;
   }
 
   self.dig = function() {
     var distance = getDistance(self.treasure);
-    if (distance < 75){
-      self.score += 10;
-      console.log("found treasure!");
+        
+    if (distance < 50) {
+       self.score += 10;
+       var treasureDug = {};
+       treasureDug.x = self.treasure.x;
+       treasureDug.y = self.treasure.y;
+       self.treasuresDug.push(treasureDug);
+
       self.treasure = new Treasure(self.ctx, self.width, self.height);
 
-      // @todo push treasure.x & y to treasuresDdug
-
     }
+
     else {
       self.score -= 5;
       var pointDug = {};
@@ -80,6 +84,16 @@ function Game (mainElement) {
       self.pointsDug.push(pointDug);
     }
   }
+
+  self.countdownTimer = function(duration) {
+    var timer = duration-1;
+    var minutes = timer/60
+    var seconds = timer%60
+    setInterval(function(){
+    minutes + ": " + seconds
+    },1000);
+  }
+
 
   //--logic (executing functions)--
   self.handleKeyDown = function(event) {
@@ -107,6 +121,7 @@ function Game (mainElement) {
     // self.ctx.textAlign = "left";
     // self.ctx.fillText('Score: ' + self.score, 20, 20);
 
+    //draw messages
     if (self.hintMessage) {
       self.ctx.textAlign = "center"; 
       self.ctx.fillStyle = 'purple';
@@ -117,14 +132,12 @@ function Game (mainElement) {
     self.ctx.fillStyle = 'blue';
     self.ctx.fillText('Score: ' + self.score, self.width - 20, 20);
 
-    //Time countdown
-    //function Timer() {
-    //self.getTimeNow = Date.now();
-    //self.delta = self.CurrentTime
-    //}
 
-
-    // @todo loop through treasures dug
+    //draw dig outcomes
+    self.ctx.fillStyle = 'yellow';
+    for (var j = 0; j < self.treasuresDug.length; j++) {
+      self.ctx.fillRect(self.treasuresDug[j].x - 5, self.treasuresDug[j].y - 5, 25, 25);
+    }
 
     self.ctx.fillStyle = 'black';
     for (var i = 0; i < self.pointsDug.length; i++) {
