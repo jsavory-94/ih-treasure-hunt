@@ -59,6 +59,10 @@ function main () {
     //   destroyGame();
     //   buildGameOver();
     // }, 10000);
+
+    game.onGameOver(function (){
+    buildGameOver();  
+    });
   }
 
   function destroyGame(){
@@ -68,9 +72,8 @@ function main () {
 
   // --- GAME OVER
   function buildGameOver(){
-
     //declare variables of game-over screen
-    stage = 'gameOver'
+    stage = 'gameOver';
     var gameOverElement;
     var restartGameButton;
 

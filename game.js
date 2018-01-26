@@ -6,7 +6,8 @@ function Game (mainElement) {
 
   self.score = 0;
   self.finished = false;
-  
+  self.onEnded;
+
   //---declare variables of game---
   self.mainElement = mainElement;
   self.width = window.innerWidth;
@@ -168,19 +169,25 @@ function Game (mainElement) {
 
     if (self.timer < 0){
       self.destroy();
-      
+      self.onEnded()  ;
         }
     // todo if (!self.finished)
-    window.requestAnimationFrame(updateCanvas);
+    if(!self.finished){
+    window.requestAnimationFrame(updateCanvas)
+    };
   }
 
   // ---functions
   self.destroy = function () {
     self.gameCanvas.remove();
+    self.finished = true;
     removeEventListener('keydown', self.handleKeyDown)
   }
 
-
- window.requestAnimationFrame(updateCanvas);
+  Game.prototype.onGameOver = function (callback) {
+    var self = this;
+    self.onEnded = callback;
+  }
+  window.requestAnimationFrame(updateCanvas);
   
 } 

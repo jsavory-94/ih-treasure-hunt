@@ -29,3 +29,11 @@ body {
 #main {
   overflow: hidden;
 }
+
+h2{
+  position: absolute;
+  align-items:center;
+  justify-content:center;
+  font-size: 48px;
+
+}
