@@ -66,7 +66,7 @@ function Game (mainElement) {
   self.dig = function() {
     var distance = getDistance(self.treasure);
         
-    if (distance < 50) {
+    if (distance < 25) {
        self.score += 100;
        var treasureDug = {};
        treasureDug.x = self.treasure.x;
