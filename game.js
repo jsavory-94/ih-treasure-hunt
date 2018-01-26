@@ -103,7 +103,7 @@ function Game (mainElement) {
     }
   }
   self.startTime = Date.now();
-  self.timer = 10;
+  self.timer = 60;
   self.loop = setInterval(countTwoMinutes, 1000);
 
   //self.timeInputHandler = function(durationSeconds) {
