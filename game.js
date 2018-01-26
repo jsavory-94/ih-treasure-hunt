@@ -66,7 +66,7 @@ function Game (mainElement) {
     var distance = getDistance(self.treasure);
         
     if (distance < 50) {
-       self.score += 10;
+       self.score += 100;
        var treasureDug = {};
        treasureDug.x = self.treasure.x;
        treasureDug.y = self.treasure.y;
@@ -85,15 +85,33 @@ function Game (mainElement) {
     }
   }
 
-  self.countdownTimer = function(duration) {
-    var timer = duration-1;
-    var minutes = timer/60
-    var seconds = timer%60
-    setInterval(function(){
-    minutes + ": " + seconds
-    },1000);
-  }
 
+  function countTwoMinutes(){
+    self.currentTime = Date.now();
+    self.delta = Math.floor(self.currentTime) - Math.floor(self.startTime);
+    self.timer -= self.delta/1000;
+    self.updateTime(self.delta/1000);
+    self.startTime = self.currentTime;
+  }
+  self.updateTime = function (){
+    if (self.timer >=120){
+      self.timer = 0;
+      self.clearInterval(self.loop);
+     
+    }
+  }
+  self.startTime = Date.now();
+  self.timer = 10;
+  self.loop = setInterval(countTwoMinutes, 1000);
+
+  //self.timeInputHandler = function(durationSeconds) {
+  //  var timer = durationSeconds-1;
+  //}
+//
+  //var countdown = self.setInterval(timeInputHandler(120)
+  //  ,1000);
+
+ // self.countdown = countdown;
 
   //--logic (executing functions)--
   self.handleKeyDown = function(event) {
@@ -132,6 +150,9 @@ function Game (mainElement) {
     self.ctx.fillStyle = 'blue';
     self.ctx.fillText('Score: ' + self.score, self.width - 20, 20);
 
+    self.ctx.textAlign = "left"; 
+    self.ctx.fillStyle = 'blue';
+    self.ctx.fillText(Math.ceil(self.timer), 20, 20);
 
     //draw dig outcomes
     self.ctx.fillStyle = 'yellow';
@@ -142,6 +163,10 @@ function Game (mainElement) {
     self.ctx.fillStyle = 'black';
     for (var i = 0; i < self.pointsDug.length; i++) {
       self.ctx.fillRect(self.pointsDug[i].x - 5, self.pointsDug[i].y - 5, 10, 10);
+
+    if(self.timer === 0){
+      self.destroy();
+      }
     }
 
     // todo if (!self.finished)
@@ -151,10 +176,10 @@ function Game (mainElement) {
   // ---functions
   self.destroy = function () {
     self.gameCanvas.remove();
-    removeEventListener('keydown', self.handleKeyDown);
-    self.player.destroy();
+    removeEventListener('keydown', self.handleKeyDown)
   }
 
+ 
   window.requestAnimationFrame(updateCanvas);
   
 } 
