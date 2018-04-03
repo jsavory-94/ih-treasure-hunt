@@ -8,11 +8,13 @@ function main () {
   var game;
   var stage;
   var gameOver
+
   // --- SPLASH
 
   //declare variables of splash screen
   var splashElement 
   var startGameButton
+  var gameInstructions
 
   //create dom elements of splash screen
   function buildSplash() {
@@ -29,16 +31,34 @@ function main () {
     splashElement.appendChild(startGameButton);
 
     //instructions
-    var instructions = document.createElement('ul');
+    gameInstructions = document.createElement('div');
+    gameInstructions.setAttribute('id','instruction');
+    mainElement.appendChild(gameInstructions);
 
-    var digInstruction = document.createElement('li');
-    digInstruction.innerText = "V: Dig";
-    digInstruction.appendChild(instructions);
+    var instructionHeader = document.createElement('h2');
+    instructionHeader.innerText = "Controls";
+    gameInstructions.appendChild(instructionHeader);
+    
+    var instructionList = document.createElement('ul');
+    gameInstructions.appendChild(instructionList);
+
+    var moveInstruction = document.createElement('li');
+    moveInstruction.innerText = "Movement: WASD";
+    instructionList.appendChild(moveInstruction);
 
     var hintInstruction = document.createElement('li');
-    hintInstruction.innerText = "F: Ask for a hint";
-    hintInstruction.appendChild(instructions);
+    hintInstruction.innerText = "Ask for hint: F";
+    instructionList.appendChild(hintInstruction);
 
+    var digInstruction = document.createElement('li');
+    digInstruction.innerText = "Dig: V";
+    instructionList.appendChild(digInstruction);
+
+
+    /*var hintInstruction = document.createElement('li');
+    hintInstruction.innerText = "F: Ask for a hint";
+    splashElement.appendChild(instructions);
+    */
     
 
     startGameButton.addEventListener("click", startGame);
@@ -47,6 +67,7 @@ function main () {
   //start game
   function startGame () {
       splashElement.remove();
+      gameInstructions.remove();
       buildGame();
     }
 
